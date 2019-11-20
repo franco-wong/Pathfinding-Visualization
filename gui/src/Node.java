@@ -12,7 +12,7 @@ class Node extends JLabel implements MouseListener{
     String role = "";
 
     Node parent;
-    int costFromStart, costFromEnd;
+    int costFromStart, costFromEnd, costAddH;
     final int DISTANCE = 1;
 
     boolean visited = false;
@@ -26,8 +26,9 @@ class Node extends JLabel implements MouseListener{
         edges = new Node[MAX_EDGES];
         edgesCount = 0;
         parent = null;
-        costFromStart = 999999999;
-        costFromEnd = 999999999;
+        costFromStart = 999999999; // gScore
+        costAddH = 999999999;   // fScore = gScore + h
+        costFromEnd = 999999999; // h function, the distance from the end node
         this.x = x;
         this.y = y;
         this.setBounds(xpos, ypos, size, size);
@@ -52,8 +53,6 @@ class Node extends JLabel implements MouseListener{
             this.setBackground(Color.WHITE);
             costFromStart = 999999999;
         }
-        if(!role.equals("end"))
-            costFromEnd = 999999999;
         parent = null;
     }
 
@@ -65,16 +64,22 @@ class Node extends JLabel implements MouseListener{
         return costFromEnd;
     }
 
+    public int getHFunction(){
+        return costAddH;
+    }
+
     public void setParent(Node parent){
         this.parent = parent;
     }
 
     void showPath(){
         this.setBackground(Color.RED);
+        pathfinding.myFrame.repaint();
     }
 
     void showAlgo(){
         this.setBackground(Color.LIGHT_GRAY);
+        pathfinding.myFrame.repaint();
     }
 
     @Override
@@ -91,6 +96,12 @@ class Node extends JLabel implements MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e){
+        if(parent == null){
+            System.out.println("null");
+        } else {
+            System.out.println(this.hashCode());
+            System.out.println(this.parent.hashCode());
+        }
         if(pathfinding.inputMode == 1){
             if(pathfinding.hasStart == false && pathfinding.end != this){
                 this.setText("S");
@@ -103,6 +114,7 @@ class Node extends JLabel implements MouseListener{
                 pathfinding.start = null;
                 pathfinding.hasStart = false;
                 this.setText("");
+                role = "";
                 setBackground(Color.WHITE);
                 costFromStart = 999999999;
                 pathfinding.resetNodes();
@@ -137,9 +149,8 @@ class Node extends JLabel implements MouseListener{
                 pathfinding.end = null;
                 pathfinding.hasEnd = false;
                 this.setText("");
+                role = "";
                 setBackground(Color.WHITE);
-                costFromEnd = 999999999;
-                pathfinding.resetBVisited();
             }
         }
     }

@@ -1,17 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.Timer;
 
 
 class MyFrame extends JFrame implements ActionListener{
     Pathfinding pathfinding;
-
+    Timer timer;
     MyFrame(int width, int height, int rows, int cols, Pathfinding pathfinding){
         setSize(width, height);
         setLayout(new GridLayout(rows, cols));
         setVisible(true);
         this.pathfinding = pathfinding;
         createMenuBar();
+
+        // timer = new Timer(500, this);
     }
 
     void createMenuBar(){
@@ -62,6 +65,8 @@ class MyFrame extends JFrame implements ActionListener{
         }else if(cmd.equals("End")){
             pathfinding.inputMode = 3;
         }else if(cmd.equals("Run")){
+            // timer.setInitialDelay(500);
+            // timer.start();
             pathfinding.runAlgo();
         }else if(cmd.equals("Dijkstras")){
             pathfinding.algo = "Dijkstras";
