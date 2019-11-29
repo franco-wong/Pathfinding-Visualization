@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.Timer;
 
-
 class MyFrame extends JFrame implements ActionListener{
     Pathfinding pathfinding;
     Timer timer;
@@ -22,34 +21,26 @@ class MyFrame extends JFrame implements ActionListener{
         JMenu menu, submenu;
         JMenuItem menuItem;
 
+        String[] firstMenuItems = {"Start", "Wall", "End"};
+        String[] secondMenuItems = {"Run", "A*", "Dijkstras"};
+
         menubar = new JMenuBar();
         menu = new JMenu("Input Mode");
-        menu.addSeparator();
-        menuItem = new JMenuItem("Start");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
-        menu.addSeparator();
-        menuItem = new JMenuItem("Wall");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
-        menu.addSeparator();
-        menuItem = new JMenuItem("End");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
+        for (String item : firstMenuItems){
+            menuItem = new JMenuItem(item);
+            menuItem.addActionListener(this);
+            menu.add(menuItem);
+            menu.addSeparator();
+        }
         menubar.add(menu);
 
         menu = new JMenu("Algorithm");
-        menuItem = new JMenuItem("Run");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
-        menu.addSeparator();
-        menuItem = new JMenuItem("A*");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
-        menu.addSeparator();
-        menuItem = new JMenuItem("Dijkstras");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
+        for(String item : secondMenuItems){
+            menuItem = new JMenuItem(item);
+            menuItem.addActionListener(this);
+            menu.add(menuItem);
+            menu.addSeparator();
+        }
         menubar.add(menu);
 
         this.setJMenuBar(menubar);

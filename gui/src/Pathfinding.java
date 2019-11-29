@@ -39,7 +39,6 @@ public class Pathfinding implements ActionListener{
     }
 
     public void runAlgo(){
-        System.out.println(algo);
         if(algo.equals("Dijkstras")){
             runDijkstras();
         } else if(algo.equals("A*")){
@@ -71,8 +70,7 @@ public class Pathfinding implements ActionListener{
                 for(int i = 0; i < current.edgesCount; i++){
                     next = current.edges[i];
 
-                    if(next.role.equals("Wall")) continue;
-                    else{
+                    if(!next.role.equals("Wall")){
                         if(cost < next.costFromStart){
                             next.costFromStart = cost;
                             next.setParent(current);
@@ -88,7 +86,6 @@ public class Pathfinding implements ActionListener{
     }
 
     void runAStar(){
-        showInfo();
         resetNodes();
         pQueue = new PriorityQueue<Node>(new HSortPQueue());
         if(hasStart && hasEnd){
@@ -100,9 +97,7 @@ public class Pathfinding implements ActionListener{
                 if(!current.role.equals("Start") && !current.role.equals("End")) current.showAlgo();
                 if(current.role.equals("End")){
                     Node parent = current.parent;
-                    System.out.println("found ending");
                     while(parent.parent != null){
-                        System.out.println("showing current parent");
                         parent.showPath();
                         parent = parent.parent;
                     }
@@ -113,23 +108,20 @@ public class Pathfinding implements ActionListener{
                 for(int i = 0; i < current.edgesCount; i++){
                     next = current.edges[i];
 
-                    if(next.role.equals("Wall")) continue;
-                    // if(next.role.equals("End")){
-                    //     next.setParent(current);
-                    // }
-                    if(cost <= next.costFromStart){
-                        next.costFromStart = cost;
-                        next.costAddH = next.costFromStart + next.costFromEnd;
-                        next.setParent(current);
-                    }
-                    if(!next.visited && !next.role.equals("Start")){
-                        pQueue.add(next);
-                        next.visited = true;
+                    if(next.role.equals("Wall")){
+                        if(cost <= next.costFromStart){
+                            next.costFromStart = cost;
+                            next.costAddH = next.costFromStart + next.costFromEnd;
+                            next.setParent(current);
+                        }
+                        if(!next.visited && !next.role.equals("Start")){
+                            pQueue.add(next);
+                            next.visited = true;
+                        }
                     }
                 }
             }
         }
-        showInfo();
     }
 
     void resetNodes(){
@@ -152,15 +144,6 @@ public class Pathfinding implements ActionListener{
                     grid[i][j].bVisited = false;
                     grid[i][j].costFromEnd = 999999999;
                 }
-            }
-        }
-    }
-
-    void showInfo(){
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < cols; j++){
-                grid[i][j].setText(String.valueOf(grid[i][j].costFromEnd)+" "+String.valueOf(grid[i][j].costFromStart)+" "+String.valueOf(grid[i][j].costAddH));
-                grid[i][j].setText(String.valueOf(grid[i][j].costFromStart));
             }
         }
     }

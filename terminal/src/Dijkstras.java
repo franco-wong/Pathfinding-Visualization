@@ -119,6 +119,5 @@ class Dijkstras{
                 System.out.printf("[%1s]",grid[i][j].value);
             }
             System.out.println("");
-        }
     }
 }

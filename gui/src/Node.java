@@ -6,14 +6,14 @@ import javax.swing.BorderFactory;
 class Node extends JLabel implements MouseListener{
     Node[] edges;
     int edgesCount;
-    final int MAX_EDGES = 4;
-    int x, y, width, height;
+    private final int MAX_EDGES = 4;
+    private int x, y, width, height;
     Pathfinding pathfinding;
     String role = "";
 
     Node parent;
     int costFromStart, costFromEnd, costAddH;
-    final int DISTANCE = 1;
+    private final int DISTANCE = 1;
 
     boolean visited = false;
     boolean bVisited = false;
@@ -74,7 +74,6 @@ class Node extends JLabel implements MouseListener{
 
     void showPath(){
         this.setBackground(Color.RED);
-        pathfinding.myFrame.repaint();
     }
 
     void showAlgo(){
@@ -96,12 +95,6 @@ class Node extends JLabel implements MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e){
-        if(parent == null){
-            System.out.println("null");
-        } else {
-            System.out.println(this.hashCode());
-            System.out.println(this.parent.hashCode());
-        }
         if(pathfinding.inputMode == 1){
             if(pathfinding.hasStart == false && pathfinding.end != this){
                 this.setText("S");
